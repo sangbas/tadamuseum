@@ -41,12 +41,12 @@ public class SessionManager {
     /**
      * Create login session
      * */
-    public void createLoginSession(String email, String userId, String firstName, boolean feedback) {
+    public void createLoginSession(String username) {
         // Storing login value as TRUE
         editor.putBoolean(IS_LOGIN, true);
 
         // Storing email in pref
-        editor.putString(KEY_USERNAME, email);
+        editor.putString(KEY_USERNAME, username);
 
         // commit changes
         editor.commit();
@@ -87,6 +87,10 @@ public class SessionManager {
 
         // return user
         return user;
+    }
+
+    public String getUsername(){
+        return pref.getString(KEY_USERNAME, null);
     }
 
     /**
