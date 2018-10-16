@@ -20,16 +20,27 @@
         android:layout_marginBottom="8dp"
         android:visibility="gone" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:layout_marginBottom="20dp"
+        android:text="@string/title_activity_login"/>
+
+
     <ScrollView
         android:id="@+id/login_form"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp">
 
         <LinearLayout
             android:id="@+id/email_login_form"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:gravity="right">
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -67,23 +78,37 @@
             <Button
                 android:id="@+id/sign_in_button"
                 style="?android:textAppearanceSmall"
-                android:layout_width="match_parent"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:layout_marginBottom="10dp"
                 android:text="@string/action_sign_in_short"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="161dp"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Don't have account?" />
+                android:orientation="horizontal"
+                android:gravity="right">
 
-            <TextView
-                android:id="@+id/register_text"
-                android:layout_width="161dp"
-                android:layout_height="wrap_content"
-                android:text="Register" />
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:text="Don't have account?"
+                    android:textColor="@color/colorBlack"/>
+
+                <TextView
+                    android:id="@+id/register_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorRegister"
+                    android:text="Register" />
+
+            </LinearLayout>
+
+
 
         </LinearLayout>
     </ScrollView>

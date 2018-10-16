@@ -3,6 +3,7 @@ package com.sangbas.tadamuseum.ui;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.sangbas.tadamuseum.R;
+import com.sangbas.tadamuseum.model.ArtObject;
+import com.sangbas.tadamuseum.model.Arts;
+import com.sangbas.tadamuseum.presenter.ArtListContract;
+import com.sangbas.tadamuseum.presenter.ArtListPresenter;
 import com.sangbas.tadamuseum.ui.dummy.DummyContent;
 import com.sangbas.tadamuseum.ui.dummy.DummyContent.DummyItem;
 
@@ -22,13 +27,14 @@ import java.util.List;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements ArtListContract.View {
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
+    private View view;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -59,19 +65,11 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_item_list, container, false);
+        view = inflater.inflate(R.layout.fragment_item_list, container, false);
 
-        // Set the adapter
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
-            if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-            }
-            recyclerView.setAdapter(new MyItemRecyclerViewAdapter(DummyContent.ITEMS, mListener));
-        }
+        ArtListPresenter artListPresenter = new ArtListPresenter(this);
+        artListPresenter.requestDataFromServer();
+
         return view;
     }
 
@@ -93,6 +91,36 @@ public class HomeFragment extends Fragment {
         mListener = null;
     }
 
+    @Override
+    public void showProgress() {
+
+    }
+
+    @Override
+    public void hideProgress() {
+
+    }
+
+    @Override
+    public void setDataToRecyclerView(List<ArtObject> movieArrayList) {
+        if (view instanceof RecyclerView) {
+            Context context = view.getContext();
+            RecyclerView recyclerView = (RecyclerView) view;
+            recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+            if (mColumnCount <= 1) {
+                recyclerView.setLayoutManager(new LinearLayoutManager(context));
+            } else {
+                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
+            }
+            recyclerView.setAdapter(new MyItemRecyclerViewAdapter(movieArrayList, mListener));
+        }
+    }
+
+    @Override
+    public void onResponseFailure(Throwable throwable) {
+
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -105,6 +133,6 @@ public class HomeFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onListFragmentInteraction(ArtObject item);
     }
 }
