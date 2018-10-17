@@ -24,6 +24,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -65,6 +66,7 @@ public class RegisterActivity extends AppCompatActivity {
     @BindView(R.id.register_button) Button registerButton;
     @BindView(R.id.register_progress) View mProgressView;
     @BindView(R.id.register_form) View mRegisterFormView;
+    @BindView(R.id.checkBox) CheckBox mCheckbox;
 
     @OnClick(R.id.register_button) void register() {
         attemptRegister();
@@ -87,6 +89,7 @@ public class RegisterActivity extends AppCompatActivity {
         // Reset errors.
         mUsernameView.setError(null);
         mPasswordView.setError(null);
+        mCheckbox.setError(null);
 
         // Store values at the time of the login attempt.
         String username = mUsernameView.getText().toString();
@@ -94,6 +97,12 @@ public class RegisterActivity extends AppCompatActivity {
 
         boolean cancel = false;
         View focusView = null;
+
+        if (!mCheckbox.isChecked()) {
+            mCheckbox.setError("This field must be checked");
+            focusView = mCheckbox;
+            cancel = true;
+        }
 
         // Check for a valid password, if the user entered one.
         if (TextUtils.isEmpty(password)) {
@@ -109,6 +118,7 @@ public class RegisterActivity extends AppCompatActivity {
             cancel = true;
         }
 
+
         if (cancel) {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
@@ -119,7 +129,7 @@ public class RegisterActivity extends AppCompatActivity {
             showProgress(true);
             mydb = new DBHelper(this);
             if(mydb.isUserExist(username)) {
-                mUsernameView.setError(getString(R.string.error_field_required));
+                mUsernameView.setError("Username has been registered");
                 focusView = mUsernameView;
                 focusView.requestFocus();
             } else {

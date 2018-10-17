@@ -15,8 +15,8 @@ public class ArtListPresenter implements ArtListContract.Presenter, ArtListContr
     }
 
     @Override
-    public void onFinished(List<ArtObject> movieArrayList) {
-        artListView.setDataToRecyclerView(movieArrayList);
+    public void onFinished(List<ArtObject> artArrayList) {
+        artListView.setDataToRecyclerView(artArrayList);
         if(artListView != null) {
             artListView.hideProgress();
         }

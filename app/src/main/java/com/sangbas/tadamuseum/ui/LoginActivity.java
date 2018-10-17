@@ -67,7 +67,6 @@ public class LoginActivity extends AppCompatActivity {
 
     @OnClick(R.id.sign_in_button) void signIn() {
         attemptLogin();
-
     }
 
     @Override
